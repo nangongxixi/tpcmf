@@ -1,0 +1,16 @@
+.idea
+*.bak
+*.log
+.buildpath
+.DS_Store
+.project
+.settings
+.git
+*.tar
+composer.lock
+/build
+/public/assets/dist
+/node_modules
+Vagrantfile
+.vagrant
+/data/runtime

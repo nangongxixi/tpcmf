@@ -1,0 +1,110 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('user/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
+        <li><a href="{:url('user/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="get" action="{:url('User/index')}">
+        员工姓名:
+        <input type="text" class="form-control" name="user_login" value="{:input('request.user_login/s','')}"
+               placeholder="请输入员工姓名">
+        &nbsp;&nbsp;角色:
+        <select class="form-control" name="role_id">
+            <option value="">---- 请选择角色 ----</option>
+            <foreach name="roles" item="vo">
+                <option value="{$vo.id}" <php>echo isset($args['role_id'])&&$args['role_id']==$vo['id']?'selected':''</php>>{$vo.name}</option>
+            </foreach>
+        </select>
+        &nbsp;&nbsp;状态：
+        <select class="form-control" name="user_status">
+            <option value="">---- 请选择状态 ----</option>
+            <foreach name="statusList" item="vo" key="key">
+                <option value="{$key}" <php>echo isset($args['user_status'])&&$args['user_status']==$key?'selected':''</php>>{$vo}</option>
+            </foreach>
+        </select>
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('User/index')}">清空</a>
+    </form>
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th width="50">ID</th>
+            <th>姓名</th>
+            <th>角色</th>
+            <th>状态</th>
+            <th>客户数</th>
+            <th>最后登录IP</th>
+            <th>最后登录时间</th>
+            <th width="270">{:lang('ACTIONS')}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="users" item="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>
+                    <if condition="$vo['user_url']"><a href="{$vo.user_url}" target="_blank" title="{$vo.signature}">{$vo.user_login}</a>
+                        <else/>
+                        {$vo.user_login}
+                    </if>
+                </td>
+                <td>{$roles[$vo.role_id]['name']}</td>
+                <if condition="$vo['user_status'] eq 2">
+                    <td style="color:red">{$statusList[$vo.user_status]}</td>
+                <else/>
+                    <td style="color:green">{$statusList[$vo.user_status]}</td>
+                </if>
+                    <td>todo</td>
+                    <td>{$vo.last_login_ip}</td>
+                    <td>
+                        <if condition="$vo['last_login_time'] eq 0">
+                            {:lang('USER_HAVE_NOT_LOGIN')}
+                            <else/>
+                            {:date('Y-m-d H:i:s',$vo['last_login_time'])}
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$vo['id'] eq 1 || $vo['id'] eq cmf_get_current_admin_id()">
+                            <if condition="$vo['user_status'] eq 1">
+                                <span class="btn btn-xs btn-danger disabled">{$statusList[1]}</span>
+                            <else/>
+                                <span class="btn btn-xs btn-warning disabled">{:lang('ACTIVATE_USER')}</span>
+                            </if>
+                            <a class="btn btn-xs btn-primary js-ajax-delete"
+                               href="{:url('user/customer',array('id'=>$vo['id']))}">所属客户</a>
+                            <a class="btn btn-xs btn-primary"
+                               href="{:url('user/resetPwd',array('id'=>$vo['id']))}">重置密码</a>
+                            <a class="btn btn-xs btn-primary" href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
+                            <span class="btn btn-xs btn-danger disabled">{:lang('DELETE')}</span>
+
+                            <else/>
+                            <if condition="$vo['user_status'] eq 1">
+                                <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
+                                   href="{:url('user/ban',array('id'=>$vo['id']))}"
+                                   data-msg="您确定要停用此用户吗？">{$statusList[2]}</a>
+                                <else/>
+                                <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                                   href="{:url('user/cancelban',array('id'=>$vo['id']))}"
+                                   data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{$statusList[1]}</a>
+                            </if>
+                            <a class="btn btn-xs btn-primary"
+                               href="{:url('customer/index',array('worker_uid'=>$vo['id']))}">所属客户</a>
+                            <a class="btn btn-xs btn-primary"
+                               href="{:url('user/resetpwd',array('id'=>$vo['id']))}">重置密码</a>
+                            <a class="btn btn-xs btn-primary" href='{:url("user/edit",array("id"=>$vo["id"]))}'>{:lang('EDIT')}</a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete"
+                               href="{:url('user/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+
+                        </if>
+                    </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <div class="pagination">{$page}</div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

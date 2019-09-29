@@ -1,0 +1,103 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('customer/unindex')}">报单</a></li>
+        <li><a href="{:url('customer/add')}">添加意向客户</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="get" action="{:url('customer/unindex')}">
+        客户姓名:
+        <input type="text" class="form-control" name="user_name" value="{:input('request.user_name/s','')}"
+               placeholder="请输入客户姓名">
+        客户地址:
+        <input type="text" class="form-control" name="address" value="{:input('request.address/s','')}"
+               placeholder="请输入客户地址">
+        &nbsp;&nbsp;所属员工:
+        <select class="form-control" name="worker_uid">
+            <option value="">---- 请选择所属员工 ----</option>
+            <foreach name="workerList" item="vo" key="key">
+                <option value="{$key}"
+                <php>echo isset($args['worker_uid'])&&$args['worker_uid']==$key?'selected':''</php>
+                >{$vo}</option>
+            </foreach>
+        </select>
+        &nbsp;&nbsp;客户状态：
+        <select class="form-control" name="check_status">
+            <option value="">---- 请选择客户状态 ----</option>
+            <foreach name="statusList" item="vo" key="key">
+                <option value="{$key}"
+                <php>echo isset($args['check_status'])&&$args['check_status']==$key?'selected':''</php>
+                >{$vo}</option>
+            </foreach>
+        </select>
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('customer/unindex')}">清空</a>
+    </form>
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th width="50">ID</th>
+            <th>客户姓名</th>
+            <th>客户地址</th>
+            <th>状态</th>
+            <th>所属员工</th>
+<!--            <th>审核人</th>-->
+            <th>审核时间</th>
+            <th width="150">{:lang('ACTIONS')}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="customerList" item="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.user_name}</td>
+                <td>
+                    <div class="self-nowrap" title="{$vo.address}">{$vo.address}</div>
+                </td>
+                <td style="color:{$statusColor[$vo.check_status]}">{$statusList[$vo.check_status]}</td>
+                <td>{$workerList[$vo.worker_uid]??''}</td>
+<!--                <td>{$checkerList[$vo.check_uid]??''}</td>-->
+                <td>{$vo.check_time}</td>
+                <td style="display: flex">
+                    <!-- 按钮判断 -->
+                    <if condition="cmf_get_current_admin_id() eq 1 || (cmf_get_current_admin_id() eq $vo.worker_uid && $vo.check_status eq 2 )">
+                        <a class="btn btn-xs btn-primary" href='{:url("customer/edit",array("id"=>$vo["id"]))}'>注册客户</a>
+                    </if>
+
+                    <if condition="cmf_get_current_admin_id() eq 1">
+                        <a class="btn btn-xs btn-danger js-ajax-delete"
+                           href="{:url('customer/delete',array('id'=>$vo['id']))}">删除</a>
+                    </if>
+
+                    <if condition="(cmf_get_current_admin_id() eq $vo.check_uid && $vo.check_role_id eq 4 && $vo.check_status eq 1) || (cmf_get_current_admin_id() eq 1 && $vo.check_status neq 2)">
+                            <a class="btn btn-xs btn-success js-ajax-dialog-btn"
+                               href="{:url('customer/check',array('id'=>$vo['id'], 'type'=>2))}"
+                               data-msg="您确定要通过此用户吗？">通过</a>
+                    </if>
+
+                    <if condition="(cmf_get_current_admin_id() eq $vo.check_uid && $vo.check_role_id eq 4 && $vo.check_status eq 1) || (cmf_get_current_admin_id() eq 1 && $vo.check_status neq 3)">
+                        <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
+                           href="{:url('customer/check',array('id'=>$vo['id'], 'type'=>3))}"
+                           data-msg="您确定要驳回此用户吗？">驳回</a>
+                    </if>
+
+                    <if condition="(cmf_get_current_admin_id() eq $vo.worker_uid && $vo.check_status eq 3) || (cmf_get_current_admin_id() eq 1 && $vo.check_status eq 3)">
+                        <a class="btn btn-xs btn-primary" href='{:url("customer/add")}'>重新报单</a>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <div class="pagination">{$page}</div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<style>
+    .btn-xs{
+        display: table-cell !important;
+        margin-right: 5px;
+    }
+</style>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('customer/index')}">客户查询</a></li>
+        <li class="active"><a>注册客户</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('Customer/editPost')}">
+        <input value="{$worker_uid}" type="hidden" name="worker_uid">
+        <input value="{$check_uid}" type="hidden" name="check_uid">
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label"><span class="form-required">*</span>姓名</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$user_name}" placeholder="请输入姓名" id="input-user_login"
+                       name="user_name">
+            </div>
+            <label for="input-user_sex" class="col-sm-1 control-label"><span class="form-required">*</span>性别</label>
+            <div class="col-md-3 col-sm-10">
+                <foreach name="sexs" item="vo" key="k">
+                    <php>
+                        $defaultSelected = '';
+                        if (isset($sex)) {
+                        $defaultSelected = $k == $sex ? "checked" : "";
+                        } else {
+                        $defaultSelected = $k == 1 ? "checked" : "";
+                        }
+                    </php>
+                    <label class="radio-inline">
+                        <input value="{$k}" type="radio" {$defaultSelected} name="sex[]">{$vo}
+                    </label>
+                </foreach>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_pass" class="col-sm-1 control-label"><span class="form-required">*</span>登录账号</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" disabled placeholder="请输入登录账号" value="{$account}"
+                       id="input-user_pass"
+                       name="account">
+            </div>
+            <label for="input-user_mobile" class="col-sm-1 control-label"><span
+                    class="form-required">*</span>联系电话</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$phone}" placeholder="请输入手机号" id="input-user_mobile"
+                       name="phone">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_area" class="col-sm-1 control-label"><span class="form-required">*</span>所在区域</label>
+            <div class="col-md-6 col-sm-10">
+                <div class="form-inline" data-toggle="distpicker">
+                    <select class="form-control" id="area1" name="area1"></select>
+                    <select class="form-control" id="area2" name="area2"></select>
+                    <select class="form-control" id="area3" name="area3"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label"><span
+                    class="form-required">*</span>详细地址</label>
+            <div class="col-md-7 col-sm-10">
+                <input type="text" class="form-control" value="{$address}" placeholder="请输入详细地址" name="address">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_pass" class="col-sm-1 control-label">QQ</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$qq}" id="input-user_pass" name="qq"
+                       placeholder="请输入QQ">
+            </div>
+            <label for="input-user_login" class="col-sm-1 control-label">邮箱</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$email}" placeholder="请选择电子邮箱" name="email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_role_id" class="col-sm-1 control-label"><span
+                    class="form-required">*</span>所属员工</label>
+            <div class="col-md-2 col-sm-10">
+                <select class="form-control" name="worker_uid">
+                    <option value="">-- 请选择所属员工 --</option>
+                    <foreach name="workerList" item="vo" key="key">
+                        <option value="{$key}" <if condition="$key==$worker_uid">selected</if>>{$vo}</option>
+                    </foreach>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label">备注</label>
+            <div class="col-md-7 col-sm-10">
+                <textarea type="textarea" rows="5" class="form-control" id="input-user_login"
+                          name="remark">{$remark}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="id" value="{$id}"/>
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
+
+

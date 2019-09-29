@@ -1,0 +1,60 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('customer/index', ['id'=>$id])}">基本信息</a></li>
+        <li><a href="{:url('customer/messageList', ['id'=>$id])}">对话记录</a></li>
+        <li><a href="{:url('customer/password', ['id'=>$id])}">密码管理</a></li>
+        <li><a href="{:url('customer/log', ['id'=>$id])}">操作日志</a></li>
+    </ul>
+    <table class="table" border="1" style="margin-top: 20px; border: 1px solid #ddd">
+        <tr>
+            <th style="width: 100px">名称</th>
+            <td>{$user_name}</td>
+        </tr>
+        <tr>
+            <th>性别：</th>
+            <td>{$sexs[$sex] ?? ''}</td>
+        </tr>
+        <tr>
+            <th>登录账号：</th>
+            <td>{$account}</td>
+        </tr>
+        <tr>
+            <th>联系电话：</th>
+            <td>{$phone}</td>
+        </tr>
+        <tr>
+            <th>所在区域：</th>
+            <td>{$area}</td>
+        </tr>
+        <tr>
+            <th>详细地址：</th>
+            <td>{$address}</td>
+        </tr>
+        <tr>
+            <th>QQ：</th>
+            <td>{$qq}</td>
+        </tr>
+        <tr>
+            <th>邮箱：</th>
+            <td>{$email}</td>
+        </tr>
+        <tr>
+            <th>备注：</th>
+            <td>{$remark}</td>
+        </tr>
+    </table>
+    <style>
+        table tr th{
+            height: 40px !important;
+            line-height: 40px !important;
+        }
+    </style>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
+
+

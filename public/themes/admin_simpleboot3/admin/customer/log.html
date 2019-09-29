@@ -1,0 +1,48 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('customer/index', ['id'=>$id])}">基本信息</a></li>
+        <li><a href="{:url('customer/messageList', ['id'=>$id])}">对话记录</a></li>
+        <li><a href="{:url('customer/password', ['id'=>$id])}">密码管理</a></li>
+        <li class="active"><a href="{:url('customer/log', ['id'=>$id])}">操作日志</a></li>
+    </ul>
+    <table class="table table-hover table-bordered" style="margin-top: 15px">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>时间</th>
+            <th>账号</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.create_time}</td>
+                <td>{$vo.nickname}</td>
+                <td>
+                    <php>
+                        if ($vo['type'] < 10) {
+                            echo $logType[$vo['type'] ?? 0] . ' ' . $vo['role']['name']??'';
+                        }
+                        if ($vo['type'] > 10 && $vo['type'] < 20) {
+                            echo $logType[$vo['type']] . ' ' . $vo['user']['user_nickname'];
+                        }
+                        if ($vo['type'] > 20) {
+                            echo $logType[$vo['type']] . ' ' . $vo['customer']['user_name'];
+                        }
+                    </php>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <div class="pagination">{$page}</div>
+
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

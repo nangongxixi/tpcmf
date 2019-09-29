@@ -1,0 +1,126 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('user/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
+        <li><a href="{:url('user/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
+        <li class="active"><a>编辑员工</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('User/editPost')}">
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label"><span class="form-required">*</span>姓名</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$user_login}" placeholder="请输入姓名" id="input-user_login"
+                       name="user_login">
+            </div>
+            <label for="input-user_pass" class="col-sm-1 control-label"><span class="form-required">*</span>工号</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" placeholder="请输入工号" value="{$account}" id="input-user_pass"
+                       name="account">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_sex" class="col-sm-1 control-label"><span class="form-required">*</span>性别</label>
+            <div class="col-md-3 col-sm-10">
+                <foreach name="sexs" item="vo" key="k">
+                    <php>$defaultSelected=$k==$sex?"checked":"";</php>
+                    <label class="radio-inline">
+                        <input value="{$k}" type="radio" {$defaultSelected} name="sex[]">{$vo}
+                    </label>
+                </foreach>
+            </div>
+            <label for="input-user_mobile" class="col-sm-1 control-label"><span class="form-required">*</span>手机</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$mobile}" placeholder="请输入手机号" id="input-user_mobile"
+                       name="mobile">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label">证件类型</label>
+            <div class="col-md-3 col-sm-10">
+                <foreach name="cards" item="vo" key="k">
+                    <php>$defaultChecked=$card_type==$k?"checked":"";</php>
+                    <label class="radio-inline">
+                        <input value="{$k}" type="radio" {$defaultChecked} name="card_type[]">{$vo}
+                    </label>
+                </foreach>
+            </div>
+            <label for="input-user_pass" class="col-sm-1 control-label">证件号码</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$card_id}" id="input-user_pass" name="card_id"
+                       placeholder="请输入证件号码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_area" class="col-sm-1 control-label">区域</label>
+            <div class="col-md-6 col-sm-10">
+                <div class="form-inline" data-toggle="distpicker" id="distpicker">
+                    <select class="form-control" id="area1" name="area1" data-id="{$area1}"></select>
+                    <select class="form-control" id="area2" name="area2" data-id="{$area2}"></select>
+                    <select class="form-control" id="area3" name="area3" data-id="{$area3}"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_pass" class="col-sm-1 control-label"><span class="form-required"></span>详细地址</label>
+            <div class="col-md-7 col-sm-10">
+                <input type="text" class="form-control" id="input-user_pass" name="address" value="{$address}"
+                       placeholder="请输入详细地址">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label">入职时间</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control js-bootstrap-date" value="{$join_time}" placeholder="请选择入职时间"
+                       id="input-user_login"
+                       name="join_time">
+            </div>
+            <label for="input-user_pass" class="col-sm-1 control-label">QQ</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" value="{$qq}" id="input-user_pass" name="qq"
+                       placeholder="请输入QQ">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_role_id" class="col-sm-1 control-label"><span class="form-required">*</span>{:lang('ROLE')}</label>
+            <div class="col-md-6 col-sm-10">
+                <foreach name="roles" item="vo">
+                    <php>$defaultRole = $vo['id'] == $role_id ? "checked" : "";</php>
+                    <label class="radio-inline">
+                        <input value="{$vo.id}" type="radio" {$defaultRole} name="role_id[]"
+                        <if condition="cmf_get_current_admin_id() eq 1 && $role_id eq 1">disabled="true"</if>
+                        >{$vo.name}
+                    </label>
+                </foreach>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label">备注</label>
+            <div class="col-md-7 col-sm-10">
+                <textarea type="textarea" rows="5" class="form-control" id="input-user_login"
+                          name="remark">{$remark}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="id" value="{$id}"/>
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('SAVE')}</button>
+                <a class="btn btn-default" href="javascript:history.back(-1);">{:lang('BACK')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $("#distpicker").distpicker({
+        province: $('#area1').attr('data-id'),
+        city:  $('#area2').attr('data-id'),
+        district:  $('#area3').attr('data-id'),
+    });
+
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,78 @@
+<include file="public@header"/>
+</head>
+<link href="__TMPL__/public/assets/simpleboot3/css/style.css" rel="stylesheet">
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">通知列表</a></li>
+    </ul>
+    <div class="solution-content clearfix">
+        <div class="solution-list hd">
+            <ul id="solution-list">
+                <foreach name="list" item="vo">
+                    <li data-id="{$vo.id}">
+                        <span class="cdate">{$vo.create_time}</span>
+                        <h2>{$vo.nickname}</h2>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+        <div class="solution-item bd" id="solution-item">
+            <foreach name="list" item="vo">
+                <div class="list-item">{$vo.content}</div>
+            </foreach>
+        </div>
+        <button type="button" class="btn btn-default self-del" id="del">
+            <span class="glyphicon glyphicon-trash"></span>删除
+        </button>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script src="__TMPL__/public/assets/js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript">
+    jQuery(".solution-content").slide({});
+    //删除通知
+    $('#del').on('click', function () {
+        var index = $('#solution-list .on').index();
+        var id = $('#solution-list').find(".on").attr('data-id');
+        console.log(index);
+        layer.confirm('您确定要删除？', {
+            btn: ['确定', '取消']
+        }, function () {
+            $.ajax({
+                type: 'GET',
+                url: "{:API_ADDR}/" + 'message/user/delNotice&id=' + id,
+                success: function (res) {
+                    if (res.code !== 200) {
+                        layer.msg(res.msg);
+                        return false;
+                    }
+                    layer.msg(res.msg);
+                    $('#solution-list li').eq(index).remove();
+                    $('#solution-list li').eq(index).addClass('on');
+
+                    $('#solution-item div').eq(index).remove();
+                    $('#solution-item div').eq(index).show();
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(function () {
+        $('.my-worker').on('click', function () {
+            var id = $(this).attr('data-id');
+            var workerUid = $(this).attr('title');
+            layer.open({
+                title: '请选择所属员工',
+                type: 2,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '200px'], //宽高
+                content: "dialog/id/" + id + "/wid/" + workerUid,
+            });
+        });
+    });
+</script>
+</body>
+</html>

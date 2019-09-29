@@ -1,0 +1,61 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('customer/unindex')}">报单</a></li>
+        <li class="active"><a href="{:url('customer/add')}">添加意向客户</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('customer/addpost')}">
+        <div class="form-group">
+            <label for="input-user_login" class="col-sm-1 control-label"><span class="form-required">*</span>客户姓名</label>
+            <div class="col-md-3 col-sm-10">
+                <input type="text" class="form-control" placeholder="请输入客户姓名" id="input-user_login" name="user_name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_area" class="col-sm-1 control-label"><span class="form-required">*</span>客户地址</label>
+            <div class="col-md-6 col-sm-10">
+                <div class="form-inline" data-toggle="distpicker">
+                    <select class="form-control" id="area1" name="area1"></select>
+                    <select class="form-control" id="area2" name="area2"></select>
+                    <select class="form-control" id="area3" name="area3"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_pass" class="col-sm-1 control-label"><span class="form-required">*</span>详细地址</label>
+            <div class="col-md-4 col-sm-10">
+                <input type="text" class="form-control" id="input-user_pass" name="address" placeholder="请输入详细地址">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_role_id" class="col-sm-1 control-label"><span class="form-required">*</span>所属员工</label>
+            <div class="col-md-2 col-sm-10">
+                <select class="form-control" name="worker_uid">
+                    <option value="">-- 请选择所属员工 --</option>
+                    <foreach name="workerList" item="vo" key="key">
+                        <option value="{$key}">{$vo}</option>
+                    </foreach>
+                </select>
+            </div>
+            <label for="input-user_role_id" class="col-sm-1 control-label"><span class="form-required">*</span>审核操作员</label>
+            <div class="col-md-2 col-sm-10">
+                <select class="form-control" name="check_uid">
+                    <option value="">-- 请选择审核操作员 --</option>
+                    <foreach name="checkerList" item="vo" key="key">
+                        <option value="{$key}">{$vo}</option>
+                    </foreach>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

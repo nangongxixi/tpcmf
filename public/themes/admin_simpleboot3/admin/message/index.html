@@ -1,0 +1,49 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('customer/index')}">客户查询</a></li>
+    </ul>
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th width="50">ID</th>
+            <th>客户姓名</th>
+            <th>客户地址</th>
+            <th>状态</th>
+            <th>所属员工</th>
+            <th>登记时间</th>
+            <th width="270">{:lang('ACTIONS')}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.nickname}</td>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+</div>
+
+<script src="__STATIC__/js/admin.js"></script>
+<script>
+    $(function () {
+        $('.my-worker').on('click', function () {
+            var id = $(this).attr('data-id');
+            var workerUid = $(this).attr('title');
+            layer.open({
+                title:'请选择所属员工',
+                type: 2,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '200px'], //宽高
+                content: "dialog/id/" + id + "/wid/" + workerUid,
+            });
+        });
+    });
+</script>
+</body>
+</html>

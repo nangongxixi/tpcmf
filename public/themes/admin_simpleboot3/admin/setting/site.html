@@ -1,0 +1,61 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">系统设置</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form margin-top-20" role="form" action="{:url('setting/sitePost')}"
+          method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label"><span
+                                    class="form-required"></span>客户对话中，主体称为</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-site-name" name="options[site_name]"
+                                       value="{$site_info.site_name|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label">客户忘记密码的提示语</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-forget-pwd" name="options[forget_pwd]"
+                                       value="{$site_info.forget_pwd|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label">新客户的默认密码</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-customer-default-pwd"
+                                       name="options[customer_default_pwd]"
+                                       value="{$site_info.customer_default_pwd|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-site-name" class="col-sm-2 control-label">新员工初始密码</label>
+                            <div class="col-md-6 col-sm-10">
+                                <input type="text" class="form-control" id="input-worker-default-pwd"
+                                       name="options[worker_default_pwd]"
+                                       value="{$site_info.worker_default_pwd|default=''}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary js-ajax-submit" data-refresh="0">
+                                    {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>
