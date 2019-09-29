@@ -28,7 +28,7 @@ define('WEB_ROOT', __DIR__ . '/');
 
 // 接口地址
 //define('API_ADDR', 'http://172.96.192.130/api.php?s=');
-define('API_ADDR', 'http://www.dj.com/api.php?s=');
+define('API_ADDR', 'http://172.96.192.130/api.php?s=');
 
 // 加载基础文件
 require CMF_ROOT . 'vendor/thinkphp/base.php';

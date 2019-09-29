@@ -166,7 +166,7 @@ var sendPrivatePicture = function (obj) {
 }; //私聊发送图片
 
 // var apiName = 'http://172.96.192.130/api.php?s=';
-var apiName = 'http://www.dj.com/api.php?s=';
+var apiName = 'http://172.96.192.130/api.php?s=';
 var curUserId = null;
 var curAcceptMsgObj = '#ChatRosters-123'; //当前接受消息对象
 var curAcceptMsgObjType = null; //当前接受消息对象类型

@@ -173,7 +173,7 @@ var selectCustomer = function (e) {
 
 // 界面样式全局变量
 // var apiName = 'http://172.96.192.130/api.php?s=';
-var apiName = 'http://www.dj.com/api.php?s=';
+var apiName = 'http://172.96.192.130/api.php?s=';
 var chatBoxContent = '#chat-box-content'; //聊天盒子内容容器
 var chatObj = '.chat-box-hd span'; //聊天对象名字
 var textMsg = '#text'; //需要发送的消息
