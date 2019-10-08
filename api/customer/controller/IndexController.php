@@ -24,6 +24,16 @@ class IndexController extends Base
         ]);
     }
 
+    public function userInfo()
+    {
+        $msg = cmf_get_option('site_info');
+        $msg = $msg['site_name'];
+        return json([
+            'code' => 200,
+            'data' => $msg
+        ]);
+    }
+
     /**
      * 登录
      */

@@ -42,6 +42,9 @@ class UserController extends Base
         $userInfo = $this->getUserInfo();
         $login['last_login_time'] = date('Y-m-d H:i:s', $userInfo['last_login_time']);
         $login['last_login_ip'] = $userInfo['last_login_ip'];
+
+        $admin = Db::name("user")->where('id', cmf_get_current_admin_id())->find();
+        $login['user_login'] = $admin['user_nickname'];
         $info = $this->isReadMessage(true) + $login + $this->customerNums();
         return json([
             'code' => 200,

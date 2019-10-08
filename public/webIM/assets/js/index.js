@@ -2,6 +2,10 @@
 window.onload = function () {
     var customer = JSON.parse(sessionStorage.getItem("customer"));
 
+    var username = rqst('customer/index/userInfo');
+    sessionStorage.setItem("username", JSON.stringify(username));
+    $('.nikename').html(username);
+
     //忘记密码提示
     $('#forgetPwd').click(function () {
         $msg = rqst('customer/index/forgetPwd');
@@ -92,6 +96,7 @@ window.onload = function () {
             }
             if ($(this).scrollTop() < 20) {
                 var customer = JSON.parse(sessionStorage.getItem("customer"));
+                var username = JSON.parse(sessionStorage.getItem("username"));
                 var data = rqst('message/index/customerMessageListAll', {"token": customer.token, "page": page});
                 if (data.length < 10) {
                     isLoad = true;
@@ -104,7 +109,7 @@ window.onload = function () {
                     //客服
                     if (data[i].user_type === 1) {
                         html += '<div class="otherMsg"><img src="assets/img/tx.jpg" width="40px" height="40px" id="limg">' +
-                            '<h4>鼎健在线客服</h4>' +
+                            '<h4>' + username + '</h4>' +
                             '<span>' + data[i].content + '</span></div>';
                     }
                     //客户
@@ -158,13 +163,14 @@ var messageList = function () {
 //聊天记录样式
 var appendList = function (data) {
     var customer = JSON.parse(sessionStorage.getItem("customer"));
+    var username = JSON.parse(sessionStorage.getItem("username"));
     var html = '';
     data.reverse();
     for (var i = 0; i < data.length; i++) {
         //客服
         if (data[i].user_type === 1) {
             html += '<div class="otherMsg"><img src="assets/img/tx.jpg" width="40px" height="40px" id="limg">' +
-                '<h4>鼎健在线客服</h4>' +
+                '<h4>' + username + '</h4>' +
                 '<span>' + data[i].content + '</span></div>';
         }
         //客户
