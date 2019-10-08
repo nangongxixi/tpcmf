@@ -24,7 +24,7 @@ use \app\admin\model\Config;
  */
 class UserController extends AdminBaseController
 {
-      use Tools;
+    use Tools;
 
     /**
      * 管理员列表
@@ -99,7 +99,7 @@ class UserController extends AdminBaseController
         if (!empty($content)) {
             return $content;
         }
-        $roles = Db::name('role')->where('status', 1)->where('id','>',1)->order("id DESC")->select();
+        $roles = Db::name('role')->where('status', 1)->where('id', '>', 1)->order("id DESC")->select();
 
         $this->assign("roles", $roles);
         $this->assign("sexs", Config::getSexs());
@@ -140,7 +140,7 @@ class UserController extends AdminBaseController
             unset($_POST['area3']);
         }
 
-        $currRoleArr =  $_POST['role_id'];
+        $currRoleArr = $_POST['role_id'];
         $_POST['sex'] = $_POST['sex'][0];
         $_POST['role_id'] = $_POST['role_id'][0];
         $_POST['card_type'] = $_POST['card_type'][0];
@@ -183,14 +183,14 @@ class UserController extends AdminBaseController
         }
 
         $id = $this->request->param('id', 0, 'intval');
-        $roles = DB::name('role')->where('status', 1)->where('id','>',1)->order("id DESC")->select();
+        $roles = DB::name('role')->where('status', 1)->where('id', '>', 1)->order("id DESC")->select();
         $this->assign("roles", $roles);
 
         $user = DB::name('user')->where("id", $id)->find();
 
         $this->assign("role_ids", $this->request->param('role_id/a'));
 
-        $area= explode('-', $user['area']);
+        $area = explode('-', $user['area']);
 
         $user['area1'] = $area[0];
         $user['area2'] = $area[1];
@@ -266,8 +266,8 @@ class UserController extends AdminBaseController
             $admin = Db::name('user')->where("id", $userId)->find();
 
             $oldPassword = $data['old_password'];
-            $password    = $data['password'];
-            $rePassword  = $data['re_password'];
+            $password = $data['password'];
+            $rePassword = $data['re_password'];
 
             if (cmf_compare_password($oldPassword, $admin['user_pass'])) {
                 if ($password == $rePassword) {
@@ -381,11 +381,12 @@ class UserController extends AdminBaseController
      *     'param'  => ''
      * )
      */
-    public function ban()
+    public function sureBan()
     {
         $id = $this->request->param('id', Config::USER_STATUS_NO, 'intval');
         if (!empty($id)) {
-            $result = Db::name('user')->where(["id" => $id, "user_type" => 1])->setField('user_status', Config::USER_STATUS_NO);
+            $result = Db::name('user')->where(["id" => $id, "user_type" => 1])->setField('user_status',
+                Config::USER_STATUS_NO);
             if ($result !== false) {
                 RecordLogModel::getSelfInstance()->add(Config::LOG_TYPE_14, $id);//写日志
                 $this->success("管理员停用成功！", url("user/index"));
@@ -423,6 +424,20 @@ class UserController extends AdminBaseController
             }
         } else {
             $this->error('数据传入失败！');
+        }
+    }
+
+    /**
+     *启停管理员
+     */
+    public function ban()
+    {
+        $type = $this->request->param('type');
+        if ($type == Config::USER_STATUS_NO) {
+            $this->sureBan();
+        }
+        if ($type == Config::USER_STATUS_YES) {
+            $this->cancelBan();
         }
     }
 }

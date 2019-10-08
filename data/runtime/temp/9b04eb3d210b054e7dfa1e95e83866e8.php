@@ -1,4 +1,4 @@
-<?php /*a:2:{s:77:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/admin\user\add.html";i:1568797339;s:76:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/public\header.html";i:1569041808;}*/ ?>
+<?php /*a:2:{s:77:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/admin\user\add.html";i:1569723024;s:76:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/public\header.html";i:1569667776;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +16,9 @@
     <link href="/themes/admin_simpleboot3/public/assets/themes/<?php echo cmf_get_admin_style(); ?>/bootstrap.min.css" rel="stylesheet">
     <link href="/themes/admin_simpleboot3/public/assets/simpleboot3/css/simplebootadmin.css" rel="stylesheet">
     <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -91,6 +94,7 @@
             width: 350px;
         }
     </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -139,13 +143,19 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="input-user_area" class="col-sm-1 control-label">住址</label>
+            <label for="input-user_area" class="col-sm-1 control-label">区域</label>
             <div class="col-md-6 col-sm-10">
                 <div class="form-inline" data-toggle="distpicker">
                     <select class="form-control" id="area1" name="area1"></select>
                     <select class="form-control" id="area2" name="area2"></select>
                     <select class="form-control" id="area3" name="area3"></select>
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-user_pass" class="col-sm-1 control-label"><span class="form-required"></span>详细地址</label>
+            <div class="col-md-7 col-sm-10">
+                <input type="text" class="form-control" id="input-user_pass" name="address" placeholder="请输入详细地址">
             </div>
         </div>
         <div class="form-group">

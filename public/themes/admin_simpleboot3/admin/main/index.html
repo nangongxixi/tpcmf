@@ -1,12 +1,4 @@
 <include file="public@header"/>
-<style>
-    .home-info li em {
-        float: left;
-        width: 120px;
-        font-style: normal;
-        font-weight: bold;
-    }
-</style>
 <hook name="admin_before_head_end"/>
 </head>
 <body>
@@ -14,7 +6,7 @@
     $(document).ready(function () {
         $.ajax({
             type: 'GET',
-            url: "{:API_ADDR}/" + 'user/index',
+            url: "{:API_ADDR}/" + 'admin/user/infoNums',
             success: function (res) {
                 var obj = res.data;
                 $('#readYes').html(obj.readYes);
@@ -81,20 +73,12 @@
                 </div>
             </td>
             <td style="border-left: #ddd 1px solid; width: 50%" align="middle">
-                <iframe src="../../webIM/admin.html" style="width:100%;height: 616px;" frameborder="0" id="appiframe-0"
+                <iframe src="../../webIM/admin.html" style="width:100%;height: 655px;" frameborder="0" id="appiframe-0"
                         class="appiframe"></iframe>
             </td>
         </tr>
     </table>
 </div>
-
-<link href="__TMPL__/public/assets/simpleboot3/css/fileinput.min.css" rel="stylesheet">
-<link href="__TMPL__/public/assets/simpleboot3/css/fileinputmin.css" rel="stylesheet">
-<link href="__TMPL__/public/assets/simpleboot3/css/bootstrap.min.css" rel="stylesheet">
-
-<link href="__TMPL__/public/assets/simpleboot3/js/fileinputmin.js" rel="stylesheet">
-<link href="__TMPL__/public/assets/simpleboot3/js/fileinput.min.js" rel="stylesheet">
-
 
 <div class="dialog-box" id="uploadImg">
     <form action="/admin/index/upload" enctype="multipart/form-data" method="post">
@@ -105,11 +89,49 @@
             <input type="submit" class="btn bg-primary" value="上传"/>
         </div>
     </form>
-
 </div>
-
 </body>
+
 <style>
+    /* 下拉加载 */
+    .load-end {
+        color: #999;
+        text-align: center;
+        line-height: 180%
+    }
+
+    /* 重置密码 */
+    .dialog-box {
+        width: 330px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        padding: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -165px;
+        margin-top: -150px;
+        border-radius: 10px;
+        border: 5px solid rgba(30, 144, 255, 0.5);
+        display: none;
+    }
+
+    .mody-pwd {
+        padding: 5px 15px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        display: block;
+        position: relative;
+        right: 10px
+    }
+
+    .home-info li em {
+        float: left;
+        width: 120px;
+        font-style: normal;
+        font-weight: bold;
+    }
+
     .head-box {
         width: 94%;
         left: 20px !important;
@@ -144,6 +166,8 @@
         text-align: center;
     }
 </style>
+
+
 <script>
     $(document).ready(function () {
         $("#changAvatar").on('click', function () {
@@ -152,37 +176,4 @@
     });
 </script>
 
-<style>
-    /* 下拉加载 */
-    .load-end {
-        color: #999;
-        text-align: center;
-        line-height: 180%
-    }
-
-    /* 重置密码 */
-    .dialog-box {
-        width: 330px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        padding: 10px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-left: -165px;
-        margin-top: -150px;
-        border-radius: 10px;
-        border: 5px solid rgba(30, 144, 255, 0.5);
-        display: none;
-    }
-
-    .mody-pwd {
-        padding: 5px 15px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        display: block;
-        position: relative;
-        right: 10px
-    }
-</style>
 </html>

@@ -167,7 +167,8 @@ class AdminMenuModel extends Model
     public function menuCache($data = null)
     {
         if (empty($data)) {
-            $data = $this->where('status',1)->order("list_order", "ASC")->column('*');
+//            $data = $this->where('status',1)->order("list_order", "ASC")->column('*');
+            $data = $this->where('is_auth',1)->order("list_order", "ASC")->column('*');
             Cache::set('Menu', $data, 0);
         } else {
             Cache::set('Menu', $data, 0);

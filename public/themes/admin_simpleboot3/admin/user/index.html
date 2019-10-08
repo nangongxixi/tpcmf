@@ -45,9 +45,9 @@
             <tr>
                 <td>{$vo.id}</td>
                 <td>
-                    <if condition="$vo['user_url']"><a href="{$vo.user_url}" target="_blank" title="{$vo.signature}">{$vo.user_login}</a>
+                    <if condition="$vo['user_url']"><a href="{$vo.user_url}" target="_blank" title="{$vo.signature}">{$vo.user_nickname}</a>
                         <else/>
-                        {$vo.user_login}
+                        {$vo.user_nickname}
                     </if>
                 </td>
                 <td>{$roles[$vo.role_id]['name']}</td>
@@ -82,11 +82,11 @@
                             <else/>
                             <if condition="$vo['user_status'] eq 1">
                                 <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
-                                   href="{:url('user/ban',array('id'=>$vo['id']))}"
+                                   href="{:url('user/ban',array('id'=>$vo['id'], 'type'=>2))}"
                                    data-msg="您确定要停用此用户吗？">{$statusList[2]}</a>
                                 <else/>
                                 <a class="btn btn-xs btn-success js-ajax-dialog-btn"
-                                   href="{:url('user/cancelban',array('id'=>$vo['id']))}"
+                                   href="{:url('user/ban',array('id'=>$vo['id'], 'type' => 1))}"
                                    data-msg="{:lang('ACTIVATE_USER_CONFIRM_MESSAGE')}">{$statusList[1]}</a>
                             </if>
                             <a class="btn btn-xs btn-primary"

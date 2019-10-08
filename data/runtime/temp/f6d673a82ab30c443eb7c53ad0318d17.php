@@ -99,7 +99,7 @@
         font-weight: bold;
     }
 </style>
-<?php
+<?php 
     \think\facade\Hook::listen('admin_before_head_end',null,false);
  ?>
 </head>
@@ -198,7 +198,7 @@
 <script>
     $.ajax({
         type: 'GET',
-        url: 'http://172.96.192.130/api.php?s=user/index',
+        url: 'http://www.dj.com/api.php?s=user/index',
         success: function (res) {
             var obj = res.data;
             $('#readYes').html(obj.readYes);

@@ -1,4 +1,4 @@
-<?php /*a:2:{s:84:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/admin\customer\dialog.html";i:1569631099;s:76:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/public\header.html";i:1569631100;}*/ ?>
+<?php /*a:2:{s:84:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/admin\customer\dialog.html";i:1569631099;s:76:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/public\header.html";i:1569667776;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +16,9 @@
     <link href="/themes/admin_simpleboot3/public/assets/themes/<?php echo cmf_get_admin_style(); ?>/bootstrap.min.css" rel="stylesheet">
     <link href="/themes/admin_simpleboot3/public/assets/simpleboot3/css/simplebootadmin.css" rel="stylesheet">
     <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -91,6 +94,7 @@
             width: 350px;
         }
     </style>
+
 </head>
 <body>
 <div class="wrap js-check-wrap">

@@ -13,3 +13,4 @@ composer.lock
 /node_modules
 Vagrantfile
 .vagrant
+/data/runtime

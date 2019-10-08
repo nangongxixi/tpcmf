@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>webIM</title>
+    <title>鼎健医学</title>
     <!-- Bootstrap.css -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -22,9 +22,9 @@
 <div class="fpage center hide" id="loginPage">
     <h2>客户登录</h2>
     <input type="text" id="user" value placeholder="请输入账号"/><br/>
-    <input type="text" id="pwd" value placeholder="请输入密码"/><br/>
+    <input type="password" id="pwd" value placeholder="请输入密码"/><br/>
     <button id="login">登录</button>
-    <p style="text-align: right; letter-spacing: 1px"><span></span> <i id="toregister" msg="">忘记密码？</i></p>
+    <p style="text-align: right; letter-spacing: 1px"><span></span> <i id="forgetPwd">忘记密码？</i></p>
 </div>
 <!-- 主界面 -->
 <!--<div class="main hide">-->
@@ -102,24 +102,20 @@
     <div class="input-group" style="margin-bottom: 10px">
         <span class="input-group-addon" style="width:100px">原密码</span>
         <input type="password" class="form-control" placeholder="请输入旧密码" name="oldPwd">
-        <span class="input-group-addon">.00</span>
     </div>
     <div class="input-group" style="margin-bottom: 10px">
         <span class="input-group-addon" style="width:100px">新密码</span>
         <input type="password" class="form-control" placeholder="请输入新密码" maxlength="6" name="newPwd">
-        <span class="input-group-addon">.00</span>
     </div>
     <div class="input-group" style="margin-bottom: 10px">
         <span class="input-group-addon" style="width:100px">重复新密码</span>
         <input type="password" class="form-control" placeholder="请再次输入新密码" maxlength="6" name="reNewPwd">
-        <span class="input-group-addon">.00</span>
     </div>
     <div class="btn-group" style="margin-left:100px">
         <button type="button" class="btn bg-primary" style="margin-right: 15px" id="submitBtn">提交</button>
         <button type="button" class="btn btn-default" id="closeBtn">取消</button>
     </div>
 </div>
-
 
 <style>
     /* 下拉加载 */
@@ -167,53 +163,5 @@
 <!-- Bootstrap.js -->
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var page = 2;
-        var isLoad = false;
-        $("#ChatRosters-123").unbind("scroll").bind("scroll", function (e) {
-            if (isLoad) {
-                return false;
-            }
-            if ($(this).scrollTop() < 20) {
-                var apiName = 'http://172.96.192.130/api.php?s=';
-                var dataObj = {"token": customer.token, "page": page};
-                $.ajax({
-                    type: 'POST',
-                    url: apiName + 'message/index/messageList',
-                    data: dataObj,
-                    async: false,
-                    success: function (res) {
-                        if (res.data.length < 10) {
-                            isLoad = true;
-                            $('#ChatRosters-123').prepend('<div class="load-end">———— 我是有底线的 ————</div>');
-                            return false;
-                        }
-
-                        var html = '';
-                        for (var i = 0; i < res.data.length; i++) {
-                            //客服
-                            if (res.data[i].user_type === 1) {
-                                html += '<div class="otherMsg"><img src="https://wx-demo-api.jc001.cn/images/agent/head1.jpg" width="40px" height="40px" id="limg">' +
-                                    '<h4>鼎健在线客服</h4>\n' +
-                                    '<span>' + res.data[i].content + '</span></div>';
-                            }
-                            //客户
-                            if (res.data[i].user_type === 2) {
-                                html += '<div class="myMsg">' +
-                                    '<img src="' + customer.avatar + '" width="40px" height="40px" id="rimg">' +
-                                    '<h4>' + customer.nickname + '</h4>\n' +
-                                    '<span>' + res.data[i].content + '</span>\n' +
-                                    '</div>';
-                            }
-                        }
-                        $('#ChatRosters-123').prepend(html);
-                        page++;
-                    }
-                });
-            }
-        });
-    });
-</script>
 </body>
 </html>

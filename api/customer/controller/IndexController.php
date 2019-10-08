@@ -2,10 +2,28 @@
 
 namespace api\customer\controller;
 
+use api\Base;
+use app\admin\model\Config;
+use app\admin\model\NoticeModel;
+use app\admin\model\RecordLogModel;
 use think\Db;
 
-class IndexController extends CustomerBase
+class IndexController extends Base
 {
+    /**
+     * 客户忘记密码的提示语
+     * @return array
+     */
+    public function forgetPwd()
+    {
+        $msg = cmf_get_option('site_info');
+        $msg = $msg['forget_pwd'];
+        return json([
+            'code' => 200,
+            'data' => $msg
+        ]);
+    }
+
     /**
      * 登录
      */
@@ -20,19 +38,11 @@ class IndexController extends CustomerBase
             ]);
         }
 
-        $customer = DB::name('customer')->where(['account' => $account])->find();
-        if (!$customer) {
-            return json([
-                'code' => 404,
-                'msg' => '客户不存在！'
-            ]);
-        }
-
         $customer = $this->getCustomerByAccount($account);
         if (!$customer) {
             return json([
                 'code' => 404,
-                'msg' => '客户禁用中！'
+                'msg' => '无效客户！'
             ]);
         }
 
@@ -57,22 +67,9 @@ class IndexController extends CustomerBase
             'data' => [
                 'token' => $token,
                 'nickname' => $customer['user_name'],
-                'avatar' => $customer['avatar'],
+                'avatar' => $customer['avatar'] ?? 'assets/img/tx.jpg'
             ]
         ]);
-    }
-
-    /**
-     * 重置token
-     */
-    public function resetToken($account)
-    {
-        $newsToken = uniqid();
-        $rs = DB::name('customer')->where(['account' => $account])->update(['login_token' => $newsToken]);
-        if (!$rs) {
-            return false;
-        }
-        return $newsToken;
     }
 
     /**
@@ -84,7 +81,7 @@ class IndexController extends CustomerBase
         $oldPwd = $this->request->param('oldPwd');
         $newPwd = $this->request->param('newPwd');
 
-        $customer = $this->getCustomerByToken($token);
+        $customer = $this->getCustomerInfoByToken($token);
         if (!$customer) {
             return json([
                 'code' => 404,
@@ -105,13 +102,30 @@ class IndexController extends CustomerBase
         if (!$rs) {
             return json([
                 'code' => 502,
-                'msg' => '操作！'
+                'msg' => '操作失败！'
             ]);
         }
 
+        RecordLogModel::getSelfInstance()->customerAddLog($customer, Config::LOG_TYPE_41);//客户写日志
+        NoticeModel::getSelfInstance()->customerAddLog($customer, Config::LOG_TYPE_41);//客户发通知
+
         return json([
             'code' => 200,
-            'msg' => 'success'
+            'data' => '操作成功！'
         ]);
     }
+
+    /**
+     * 重置token
+     */
+    private function resetToken($account)
+    {
+        $newsToken = uniqid();
+        $rs = DB::name('customer')->where(['account' => $account])->update(['login_token' => $newsToken]);
+        if (!$rs) {
+            return false;
+        }
+        return $newsToken;
+    }
+
 }

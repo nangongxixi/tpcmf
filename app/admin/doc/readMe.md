@@ -80,3 +80,83 @@
 | 非本人 / 审核员|   1 | 正常 |【查看】
 |       |    2   | 停用   |   【查看】 
     
+    
+##三：聊天
+####3.1发送消息
+###### user_type 为 1, uid为XXX的客服 发了一条消息给 form_uid为XXX的客户
+###### user_type 为 2, uid为XXX的客户 发了一条消息给 form_uid为XXX的客服
+    user_type: 发送者身份（1客服，2客户）
+    
+    当没有客服登录时，默认发送给超级管理员
+    $from_uid = cmf_get_current_admin_id() ?? 1;
+    
+    getUid() //发送者Id   
+     
+    发送者为客服时: uid = user.id,            
+                   from_uid = customer.id
+                   user_type = 1
+            
+    发送者为客户时: uid = customer.id, 
+                   from_uid = user.id
+                   user_type = 2
+
+        
+####3.1聊天记录
+###### 第一人称可能是发送者（uid）, 也可能是接收者（from_uid）
+    客服1和所有客户聊天记录: select * from dj_message where user_type=1 and (uid=1 or from_uid=1);
+    客服1和客户9的聊天记录: select * from dj_message where (user_type=1 and uid=1 and from_uid=9) or (user_type=2 and uid=9 and from_uid=1)
+    
+    客户1和所有客服聊天记录: select * from dj_message where user_type=2 and (uid=1 or from_uid=1);
+    客户1和客服9的聊天记录: select * from dj_message where (user_type=2 and uid=1 and from_uid=9) or (user_type=1 and uid=9 and from_uid=1)
+    
+##四：通知
+ ###### 4.1 插入   
+    客户有操作时插入一条通知记录，当前只有修改密码插入了    
+    customerInfo(); 客户详情
+    addNotice(); 插入通知
+  ###### 4.2 阅读
+    状态：1已读，2未读
+    
+    read()
+    管理端客服点击阅读： update from dj_notice set is_read=1 where id=3
+   ###### 4.2 列表
+    所有通知  未读红点标识
+    点击后read(); 红点消失
+    
+####打印SQL：echo DB::name('customer')->getLastSql();
+
+##附：接口列表
+#### 请求地址：http://www.dj.com/api.php?s=
+####  消息部分
+|   名称 | 地址 | 参数 | 返回 | 
+|:----:|:----:|:----:|:----:|
+客户聊天总条数 | message/index/customerMessageNums | 'token'  | int: 6
+客服聊天总条数 | message/index/userMessageNums |   | int: 6
+客服和某客户聊天总条数 | message/index/userToCustomerMessageNums | 'token'  | int: 6
+|       |       |       |       |
+客服发送消息 | message/index/userSendMessage |  'token'  | array: ['code' => 200, 'msg' => 'success']
+客户发送消息 | message/index/customerSendMessage |  'token'  | array: ['code' => 200, 'data' => 'success']
+|       |       |       |       |
+客户和所有客服的聊天记录 | message/index/customerMessageListAll |  'token' / 'page' / 'nums' | array: ['code' => 200, 'data' => $list]
+客服和所有客户的消息记录 | message/index/userMessageListAll |  'token' / 'page' / 'nums'  | array: ['code' => 200, 'data' => $list]
+客服和某客户的消息记录 | message/index/userMessageList |  'token' / 'page' / 'nums'  | array: ['code' => 200, 'data' => $list]
+
+####  客户部分
+|   名称 | 地址 | 参数 | 返回 | 
+|:----:|:----:|:----:|:----:|
+客户忘记密码的提示语 | customer/index/forgetPwd |   | str: 'XXXXXX'
+客户登录 | customer/index/login | 'username' / 'password'  |array: ['code' => 200, 'msg' => '登录成功','data' => ['token' => 'xxxx', 'nickname'=> '',avatar' => 'xxx']]
+修改密码 | customer/index/resetPwd | 'token' / 'oldPwd' / 'newPwd'  | array: ['code' => 200, 'data' => 'success']
+
+####  客服部分
+|   名称 | 地址 | 参数 | 返回 | 
+|:----:|:----:|:----:|:----:|
+消息已读，未读数 | admin/user/isReadMessage |  |array: ['readYes' => 7, 'readNo' => 5]  
+首页数量显示 | admin/user/infoNums |   |array: ['readYes'=>10, 'readNo'=>5, last_login_time' => xxx, 'last_login_ip', 'customerYX' => 5, 'customerDZC' => 5, 'customerZC' => 5, 'customerTY' => 5] 
+
+####  通知部分 
+|   名称 | 地址 | 参数 | 返回 | 
+|:----:|:----:|:----:|:----:|
+通知已读，未读数 | admin/notice/isReadNotice |  |array: ['readYes' => 7,'readNo' => 5] 
+通知列表 | admin/notice/search |  |array: ['code' => 200, 'data' => $list] 
+删除通知 | admin/notice/delNotice | $id |array: ['readYes' => 7, 'readNo' => 5] 

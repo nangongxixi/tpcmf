@@ -219,7 +219,8 @@
                     </a>
                 </li>
                 <li class="light-blue" style="border-left:none;">
-                    <a href="javascript:openapp('/admin/message/notice.html','168admin','通知管理',true);" style="padding: 11px 5px 10px 5px">
+                    <a href="javascript:openapp('/admin/message/notice.html','168admin','通知管理',true);"
+                       style="padding: 11px 5px 10px 5px">
                         <div class="label label-danger" id="notice-nums" title="通知数量"
                              style="padding:.35em; display: block !important; min-width: 26px; height: 26px; border-radius: 50%; font-size: 115%">
                             0
@@ -227,7 +228,8 @@
                     </a>
                 </li>
                 <li class="light-blue" style="border-left:none;">
-                    <a href="javascript:openapp('/admin/message/search.html','169admin','聊天记录管理',true);" style="padding: 11px 5px 10px 5px">
+                    <a href="javascript:openapp('/admin/message/search.html','169admin','聊天记录管理',true);"
+                       style="padding: 11px 5px 10px 5px">
                         <div class="label label-warning" title="消息数量"
                              style="padding:.35em; display: block !important; min-width: 26px; height: 26px; border-radius: 50%; font-size: 115%"
                              id="message-nums">0
@@ -335,11 +337,13 @@
 <script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js"></script>
 <script>
     setInterval(function () {
-        $.get("{:API_ADDR}/" + 'message/user/nums', function (res) {
-            $('#notice-nums').html(res.data.notice);
-            $('#message-nums').html(res.data.message);
+        $.get("{:API_ADDR}/" + 'admin/user/isReadMessage', function (res) {
+            $('#message-nums').html(res.readNo);
         })
-    }, 3000);
+        $.get("{:API_ADDR}/" + 'admin/notice/isReadNotice', function (res) {
+            $('#notice-nums').html(res.readNo);
+        })
+    }, 15000000000);
 
     $(function () {
         $("[data-toggle='tooltip']").tooltip();
@@ -349,7 +353,8 @@
             $(this).removeClass("open");
         });
 
-        var menus = {:$menus_js_var};
+        var menus = {:$menus_js_var}
+        ;
         //读取url参数。尝试执行菜单功能。
         if (typeof (menus) != "undefined") {
 

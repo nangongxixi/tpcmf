@@ -113,6 +113,8 @@ class Config
     const LOG_TYPE_29 = 29;
     const LOG_TYPE_30 = 30;
 
+    const LOG_TYPE_41 = 41;
+
     public static function logTypes($key = null, $default = null)
     {
         $arr = [
@@ -143,6 +145,9 @@ class Config
             self::LOG_TYPE_28 => '停用了客户',
             self::LOG_TYPE_29 => '启用了客户',
             self::LOG_TYPE_30 => '删除了客户',
+            /** 40以上 客户操作部分 */
+            self::LOG_TYPE_41 => '修改了密码',
+
         ];
         if ($key === null) {
             return $arr;

@@ -26,6 +26,7 @@ class RecordLogModel extends Base
         $post['type'] = $type;
         $post['info_id'] = $infoId;
         $post['remark'] = $remark;
+        $post['is_customer'] = Config::MESSAGE_SENDER_ROLE_KF; //默认
 
         $post['create_time'] = date('Y-m-d H:i:s');
         $post['c_year'] = date('Y');
@@ -35,7 +36,24 @@ class RecordLogModel extends Base
 
         $record = new RecordLogModel();
         $record->data($post)->save();
+    }
 
+    public function customerAddLog($customer, $type, $remark = null)
+    {
+        $post['uid'] = $customer['id'];
+        $post['nickname'] = $customer['user_name'];
+        $post['type'] = $type;
+        $post['remark'] = $remark;
+        $post['is_customer'] = Config::MESSAGE_SENDER_ROLE_KH; //默认
+
+        $post['create_time'] = date('Y-m-d H:i:s');
+        $post['c_year'] = date('Y');
+        $post['c_month'] = date('m');
+        $post['c_week'] = date('W');
+        $post['c_day'] = date('Y-m-d');
+
+        $record = new RecordLogModel();
+        $record->data($post)->save();
     }
 
     //关联客户表

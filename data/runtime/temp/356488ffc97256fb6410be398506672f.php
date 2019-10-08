@@ -1,4 +1,4 @@
-<?php /*a:2:{s:79:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/admin\user\index.html";i:1569041808;s:76:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/public\header.html";i:1569041808;}*/ ?>
+<?php /*a:2:{s:79:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/admin\user\index.html";i:1569745063;s:76:"D:\phpstudy_pro\WWW\tpcmf\public/themes/admin_simpleboot3/public\header.html";i:1569667776;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +16,9 @@
     <link href="/themes/admin_simpleboot3/public/assets/themes/<?php echo cmf_get_admin_style(); ?>/bootstrap.min.css" rel="stylesheet">
     <link href="/themes/admin_simpleboot3/public/assets/simpleboot3/css/simplebootadmin.css" rel="stylesheet">
     <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -91,6 +94,7 @@
             width: 350px;
         }
     </style>
+
 </head>
 <body>
 <div class="wrap js-check-wrap">
@@ -137,9 +141,9 @@
             <tr>
                 <td><?php echo $vo['id']; ?></td>
                 <td>
-                    <?php if($vo['user_url']): ?><a href="<?php echo $vo['user_url']; ?>" target="_blank" title="<?php echo $vo['signature']; ?>"><?php echo $vo['user_login']; ?></a>
+                    <?php if($vo['user_url']): ?><a href="<?php echo $vo['user_url']; ?>" target="_blank" title="<?php echo $vo['signature']; ?>"><?php echo $vo['user_nickname']; ?></a>
                         <?php else: ?>
-                        <?php echo $vo['user_login']; ?>
+                        <?php echo $vo['user_nickname']; ?>
                     <?php endif; ?>
                 </td>
                 <td><?php echo $roles[$vo['role_id']]['name']; ?></td>
@@ -171,11 +175,11 @@
 
                             <?php else: if($vo['user_status'] == 1): ?>
                                 <a class="btn btn-xs btn-danger js-ajax-dialog-btn"
-                                   href="<?php echo url('user/ban',array('id'=>$vo['id'])); ?>"
+                                   href="<?php echo url('user/ban',array('id'=>$vo['id'], 'type'=>2)); ?>"
                                    data-msg="您确定要停用此用户吗？"><?php echo $statusList[2]; ?></a>
                                 <?php else: ?>
                                 <a class="btn btn-xs btn-success js-ajax-dialog-btn"
-                                   href="<?php echo url('user/cancelban',array('id'=>$vo['id'])); ?>"
+                                   href="<?php echo url('user/ban',array('id'=>$vo['id'], 'type' => 1)); ?>"
                                    data-msg="<?php echo lang('ACTIVATE_USER_CONFIRM_MESSAGE'); ?>"><?php echo $statusList[1]; ?></a>
                             <?php endif; ?>
                             <a class="btn btn-xs btn-primary"
