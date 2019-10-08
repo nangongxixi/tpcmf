@@ -123,8 +123,8 @@ window.onload = function () {
     });
 };
 
-// var apiName = 'http://172.96.192.130/api.php?s=';
-var apiName = 'http://www.dj.com/api.php?s=';
+var apiName = 'http://172.96.192.130/api.php?s=';
+// var apiName = 'http://www.dj.com/api.php?s=';
 var rqst = function ($url, $param) {
     var result = '';
     $.ajax({
